@@ -1,0 +1,26 @@
+auto eth0
+# set adapter configuration as static
+
+iface eth0 inet static
+	wait-delay 15
+	hostname $(hostname)
+	address 192.168.1.6
+	netmask 255.255.255.0
+
+auto wlan0
+
+# set adapter configuration as static
+iface wlan0 inet static
+
+   # https://code.kodo.org.uk/dom/buildroot/commit/ccc52c8183730a6b7f498d371520e881dfb41668
+   wait-delay 30
+   
+   pre-up wpa_supplicant -B -Dwext -iwlan0 -c /etc/wpa_supplicant/wpa_supplicant.conf
+   post-down killall -q wpa_supplicant
+   
+   address 192.168.1.190
+   
+   netmask 255.255.255.0
+
+   gateway 192.168.1.1
+

@@ -1,0 +1,49 @@
+
+export PATH="/bin:/sbin:/usr/bin:/usr/sbin"
+
+if [ "$PS1" ]; then
+	if [ "`id -u`" -eq 0 ]; then
+		export PS1='MP3_SHELL>:\w\$ '
+	else
+		export PS1='MP3_SHELL>:\w\$ '
+	fi
+fi
+
+export EDITOR='/bin/vi'
+
+# Source configuration files from /etc/profile.d
+for i in /etc/profile.d/*.sh ; do
+	if [ -r "$i" ]; then
+		. $i
+	fi
+
+done
+unset i
+
+
+#creating Global File
+if [ ! -e /Player/tempFile ]
+then
+touch /Player/tempFile
+fi
+
+#creating Global File
+if [ ! -e /Player/device_detected ]
+then
+touch /Player/device_detected
+fi
+
+echo 0  > /Player/device_detected
+echo 0  > /Player/tempFile 
+
+
+
+alias play="echo 1 > '/Player/tempFile'"
+alias pause="echo 2 > '/Player/tempFile'"
+alias next="echo 3 > '/Player/tempFile'"
+alias previous="echo 4 > '/Player/tempFile'"
+alias shuffle="echo 5 > '/Player/tempFile'"
+
+./../../Player/musicPlayer.bash			&
+
+echo "  Hello <3 "
